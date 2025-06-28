@@ -30,4 +30,35 @@ This requires deeper session state and grant management or a front-end flow to r
 
 ---
 
-## 📁 Project Structure
+🧪 How to Run It
+
+    Install dependencies:
+
+npm install
+
+    Run the server with hot reload:
+
+```bash
+    npm run dev
+```
+
+⚠️ Important:
+Before using this app, both the sender and receiver must have valid Open Payments-compatible wallet addresses.
+
+    Each wallet should support:
+
+        Incoming and outgoing payments
+
+        Grant authorization
+
+        Quoting and ILP payment methods
+
+You’ll need:
+
+    A valid wallet URL for both sender and receiver
+
+    A private key and key ID for the sender (to sign requests)
+
+    The sender’s wallet must support Open Payments Auth server
+
+If any of these are missing or misconfigured, the flow will fail at grant or payment creation stages.
