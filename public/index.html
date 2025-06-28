@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTap - Turn Your Fibre into Pay-as-You-Go Hotspot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Main Menu Screen -->
+        <div id="main-screen" class="screen active">
+            <div class="logo">DataTap</div>
+            <div class="subtitle">Turn Your Fibre into Pay-as-You-Go Hotspot</div>
+            
+            <button class="btn" onclick="showScreen('host-setup')">
+                 Host a Hotspot
+            </button>
+            
+            <button class="btn secondary" onclick="showScreen('user-scan')">
+                 Connect to Hotspot
+            </button>
+
+            <div style="margin-top: 30px; font-size: 12px; color: rgba(255,255,255,0.8);">
+                <p>No SIMs • No Contracts • No Bundles</p>
+                <p>Just scan, connect, pay, and go.</p>
+            </div>
+        </div>
+
+<!-- Host Setup Screen -->
+        <div id="host-setup" class="screen">
+            <button class="back-btn" onclick="showScreen('main-screen')">←</button>
+            
+            <div class="logo">Host Setup</div>
+            <div class="subtitle">Configure your hotspot session</div>
+
+            <div class="host-info">
+                <div class="info-row">
+                    <span>Host Name:</span>
+                    <input type="text" id="host-name" value="Sarah's Café" style="border:none;background:none;text-align:right;">
+                </div>
+                <div class="info-row">
+                    <span>WiFi Name:</span>
+                    <span>DataTap_Guest</span>
+                </div>
+                <div class="info-row">
+                    <span>Price:</span>
+                    <select id="price-select" style="border:none;background:none;">
+                        <option value="0.10">R0.10/min</option>
+                        <option value="0.05">R0.05/min</option>
+                        <option value="0.20">R0.20/min</option>
+                        <option value="2.00">R2.00/hour</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" onclick="generateQR()">
+                Generate QR Code
+            </button>
+        </div>
+
+        <!-- QR Code Display Screen -->
+        <div id="qr-display" class="screen">
+            <button class="back-btn" onclick="showScreen('host-setup')">←</button>
+            
+            <div class="logo">Your QR Code</div>
+            <div class="subtitle">Print and display this code</div>
+
+            <div class="qr-code pulse">
+                 QR CODE<br>
+                <small>datatap.link/h/abc123</small>
+            </div>
+
+            <div class="instructions">
+                <strong>Instructions for customers:</strong><br>
+                1. Scan this QR code<br>
+                2. Connect to "DataTap_Guest" WiFi<br>
+                3. Open browser and go to datatap.link/start<br>
+                4. Set spending limit and start session
+            </div>
+
+            <button class="btn" onclick="showScreen('host-dashboard')">
+                View Dashboard
+            </button>
+        </div>
+
+        <!-- Host Dashboard Screen -->
+        <div id="host-dashboard" class="screen">
+            <button class="back-btn" onclick="showScreen('qr-display')">←</button>
+            
+            <div class="logo">Dashboard</div>
+            <div class="subtitle">Live session monitoring</div>
+
+            <div class="earnings-display">
+                <div>Today's Earnings</div>
+                <div class="big-number" id="total-earnings">R0.00</div>
+                <div id="active-sessions">0 active sessions</div>
+            </div>
+
+            <div class="host-info">
+                <div class="info-row">
+                    <span>Sessions Today:</span>
+                    <span id="session-count">0</span>
+                </div>
+                <div class="info-row">
+                    <span>Average Duration:</span>
+                    <span id="avg-duration">0 min</span>
+                </div>
+                <div class="info-row">
+                    <span>Current Rate:</span>
+                    <span id="current-rate">R0.10/min</span>
+                </div>
+            </div>
+
+            <button class="btn secondary" onclick="showScreen('main-screen')">
+                End Hosting
+            </button>
+        </div>
+
+        <!-- User Scan Simulation Screen -->
+        <div id="user-scan" class="screen">
+            <button class="back-btn" onclick="showScreen('main-screen')">←</button>
+            
+            <div class="logo">Scan QR Code</div>
+            <div class="subtitle">Point your camera at the QR code</div>
+
+            <div class="wifi-icon">📡</div>
+
+            <button class="btn" onclick="simulateQRScan()">
+                Simulate QR Scan
+            </button>
+
+            <div style="margin-top: 20px; font-size: 12px; color: #666;">
+                In real app: Camera would open to scan QR code
+            </div>
+        </div>
+
+        <!-- Hotspot Info Page (after QR scan) -->
+        <div id="hotspot-info" class="screen">
+            <div class="logo">Sarah's Café</div>
+            <div class="subtitle">Welcome to our hotspot!</div>
+
+            <div class="host-info">
+                <div class="info-row">
+                    <span>WiFi Network:</span>
+                    <span>DataTap_Guest</span>
+                </div>
+                <div class="info-row">
+                    <span>Price:</span>
+                    <span id="display-price">R0.10/min</span>
+                </div>
+                <div class="info-row">
+                    <span>Connection:</span>
+                    <span>Fast Fibre</span>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <strong>Next steps:</strong><br>
+                1. Connect to "DataTap_Guest" WiFi network<br>
+                2. Once connected, tap "I've joined the WiFi"<br>
+                3. Set your spending limit and start browsing!
+            </div>
+
+            <button class="btn" onclick="showScreen('captive-portal')">
+                I've joined the WiFi - Start
+            </button>
+        </div>
+
+        <!-- Captive Portal Payment Screen -->
+        <div id="captive-portal" class="screen">
+            <div class="logo">Set Spending Limit</div>
+            <div class="subtitle">How much do you want to spend?</div>
+
+            <div class="spending-controls">
+                <label for="spending-limit">Maximum Amount (R)</label>
+                <input type="number" id="spending-limit" class="amount-input" value="5.00" min="1" max="100" step="0.50">
+                
+                <div style="margin: 15px 0; font-size: 14px; color: #666;">
+                    At R<span id="rate-display">0.10</span>/min, this gives you about <span id="time-estimate">50</span> minutes
+                </div>
+            </div>
+
+            <button class="btn" onclick="startSession()">
+                Start Session
+            </button>
+
+            <div style="margin-top: 20px; font-size: 12px; color: #666;">
+                You'll be notified when you're close to your limit
+            </div>
+        </div>
+
+        <!-- Active Session Screen -->
+        <div id="active-session" class="screen">
+            <div class="logo">Session Active</div>
+            <div class="subtitle">You're connected and browsing!</div>
+
+            <div class="session-status">
+                <div class="status-row">
+                    <span>Time Connected:</span>
+                    <span id="session-time">00:00</span>
+                </div>
+                <div class="status-row">
+                    <span>Amount Spent:</span>
+                    <span>R<span id="amount-spent">0.00</span></span>
+                </div>
+                <div class="status-row">
+                    <span>Limit:</span>
+                    <span>R<span id="session-limit">5.00</span></span>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="spending-progress"></div>
+                </div>
+                
+                <div style="font-size: 12px; opacity: 0.8; margin-top: 10px;">
+                    <span id="remaining-amount">R5.00</span> remaining
+                </div>
+            </div>
+
+            <div class="notification" id="limit-warning">
+                <strong>Almost at your limit!</strong><br>
+                You've spent most of your budget. Continue or end session?
+            </div>
+
+            <div id="session-controls">
+                <button class="btn danger" onclick="endSession()">
+                    End Session
+                </button>
+            </div>
+
+            <div id="continue-controls" style="display: none;">
+                <button class="btn success" onclick="continueSession()">
+                    Continue Session
+                </button>
+                <button class="btn danger" onclick="endSession()">
+                    End Session
+                </button>
+            </div>
+        </div>
+
+        <!-- Session Ended Screen -->
+        <div id="session-ended" class="screen">
+            <div class="logo">Session Ended</div>
+            <div class="subtitle">Thank you for using DataTap!</div>
+
+            <div class="session-status">
+                <div class="status-row">
+                    <span>Total Time:</span>
+                    <span id="final-time">05:23</span>
+                </div>
+                <div class="status-row">
+                    <span>Total Spent:</span>
+                    <span>R<span id="final-amount">0.54</span></span>
+                </div>
+                <div class="status-row">
+                    <span>Host:</span>
+                    <span id="final-host">Sarah's Café</span>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0; padding: 15px; background: #e8f5e8; border-radius: 10px; font-size: 14px;">
+                 Payment processed successfully via Open Payments
+            </div>
+
+            <button class="btn" onclick="showScreen('main-screen')">
+                Connect to Another Hotspot
+            </button>
+        </div>
+    </div>
+
+    <script src="main.js" defer></script>
+</body>
+</html>
