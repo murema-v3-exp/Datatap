@@ -8,41 +8,62 @@
 </head>
 <body>
     <div class="container">
-        <!-- Main Menu Screen -->
+        <!-- ====================================== -->
+        <!-- MAIN MENU SCREEN                       -->
+        <!-- Initial landing page with two options: -->
+        <!-- 1. Host a hotspot (share your WiFi)    -->
+        <!-- 2. Connect to a hotspot (use WiFi)     -->
+        <!-- ====================================== -->
         <div id="main-screen" class="screen active">
+            <!-- App branding and tagline -->
             <div class="logo">DataTap</div>
             <div class="subtitle">Turn Your Fibre into Pay-as-You-Go Hotspot</div>
             
+            <!-- Primary action: For users who want to share their WiFi -->
             <button class="btn" onclick="showScreen('host-setup')">
                  Host a Hotspot
             </button>
             
+            <!-- Secondary action: For users who want to connect to WiFi -->
             <button class="btn secondary" onclick="showScreen('user-scan')">
                  Connect to Hotspot
             </button>
 
+            <!-- Value proposition messaging -->
             <div style="margin-top: 30px; font-size: 12px; color: rgba(255,255,255,0.8);">
                 <p>No SIMs • No Contracts • No Bundles</p>
                 <p>Just scan, connect, pay, and go.</p>
             </div>
         </div>
 
-<!-- Host Setup Screen -->
+        <!-- ====================================== -->
+        <!-- HOST SETUP SCREEN                      -->
+        <!-- Configure hotspot settings before      -->
+        <!-- generating QR code for customers       -->
+        <!-- ====================================== -->
         <div id="host-setup" class="screen">
+            <!-- Navigation: Return to main menu -->
             <button class="back-btn" onclick="showScreen('main-screen')">←</button>
             
+            <!-- Screen header -->
             <div class="logo">Host Setup</div>
             <div class="subtitle">Configure your hotspot session</div>
 
+            <!-- Configuration options for the host -->
             <div class="host-info">
+                <!-- Host display name (editable) - shown to customers -->
                 <div class="info-row">
                     <span>Host Name:</span>
                     <input type="text" id="host-name" value="Sarah's Café" style="border:none;background:none;text-align:right;">
                 </div>
+                
+                <!-- WiFi network SSID - customers will connect to this -->
                 <div class="info-row">
                     <span>WiFi Name:</span>
                     <span>DataTap_Guest</span>
                 </div>
+                
+                <!-- Pricing model selector - determines per-minute or per-hour rate -->
                 <div class="info-row">
                     <span>Price:</span>
                     <select id="price-select" style="border:none;background:none;">
@@ -54,23 +75,33 @@
                 </div>
             </div>
 
+            <!-- Generate QR code with configured settings -->
             <button class="btn" onclick="generateQR()">
                 Generate QR Code
             </button>
         </div>
 
-        <!-- QR Code Display Screen -->
+        <!-- ====================================== -->
+        <!-- QR CODE DISPLAY SCREEN                 -->
+        <!-- Shows generated QR code for customers  -->
+        <!-- to scan and access hotspot info        -->
+        <!-- ====================================== -->
         <div id="qr-display" class="screen">
+            <!-- Navigation: Return to host setup -->
             <button class="back-btn" onclick="showScreen('host-setup')">←</button>
             
+            <!-- Screen header -->
             <div class="logo">Your QR Code</div>
             <div class="subtitle">Print and display this code</div>
 
+            <!-- QR code placeholder (would be actual QR in production) -->
+            <!-- Pulse animation draws attention to the code -->
             <div class="qr-code pulse">
                  QR CODE<br>
                 <small>datatap.link/h/abc123</small>
             </div>
 
+            <!-- Step-by-step instructions for customers -->
             <div class="instructions">
                 <strong>Instructions for customers:</strong><br>
                 1. Scan this QR code<br>
@@ -79,82 +110,120 @@
                 4. Set spending limit and start session
             </div>
 
+            <!-- Navigate to dashboard to monitor active sessions -->
             <button class="btn" onclick="showScreen('host-dashboard')">
                 View Dashboard
             </button>
         </div>
 
-        <!-- Host Dashboard Screen -->
+        <!-- ====================================== -->
+        <!-- HOST DASHBOARD SCREEN                  -->
+        <!-- Real-time monitoring of earnings and   -->
+        <!-- active customer sessions               -->
+        <!-- ====================================== -->
         <div id="host-dashboard" class="screen">
+            <!-- Navigation: Return to QR display -->
             <button class="back-btn" onclick="showScreen('qr-display')">←</button>
             
+            <!-- Screen header -->
             <div class="logo">Dashboard</div>
             <div class="subtitle">Live session monitoring</div>
 
+            <!-- Primary earnings display - main KPI for hosts -->
             <div class="earnings-display">
                 <div>Today's Earnings</div>
+                <!-- Updated in real-time as sessions progress -->
                 <div class="big-number" id="total-earnings">R0.00</div>
+                <!-- Count of currently active customer sessions -->
                 <div id="active-sessions">0 active sessions</div>
             </div>
 
+            <!-- Additional session statistics -->
             <div class="host-info">
+                <!-- Total number of sessions completed today -->
                 <div class="info-row">
                     <span>Sessions Today:</span>
                     <span id="session-count">0</span>
                 </div>
+                
+                <!-- Average duration across all sessions -->
                 <div class="info-row">
                     <span>Average Duration:</span>
                     <span id="avg-duration">0 min</span>
                 </div>
+                
+                <!-- Currently configured pricing rate -->
                 <div class="info-row">
                     <span>Current Rate:</span>
                     <span id="current-rate">R0.10/min</span>
                 </div>
             </div>
 
+            <!-- End hosting session and return to main menu -->
             <button class="btn secondary" onclick="showScreen('main-screen')">
                 End Hosting
             </button>
         </div>
 
-        <!-- User Scan Simulation Screen -->
+        <!-- ====================================== -->
+        <!-- USER SCAN SCREEN                       -->
+        <!-- Customer initiates connection by       -->
+        <!-- scanning host's QR code                -->
+        <!-- ====================================== -->
         <div id="user-scan" class="screen">
+            <!-- Navigation: Return to main menu -->
             <button class="back-btn" onclick="showScreen('main-screen')">←</button>
             
+            <!-- Screen header -->
             <div class="logo">Scan QR Code</div>
             <div class="subtitle">Point your camera at the QR code</div>
 
+            <!-- Visual indicator for scanning action -->
             <div class="wifi-icon">📡</div>
 
+            <!-- Simulate QR scan (in production, this would open camera) -->
             <button class="btn" onclick="simulateQRScan()">
                 Simulate QR Scan
             </button>
 
+            <!-- Developer note about production implementation -->
             <div style="margin-top: 20px; font-size: 12px; color: #666;">
                 In real app: Camera would open to scan QR code
             </div>
         </div>
 
-        <!-- Hotspot Info Page (after QR scan) -->
+        <!-- ====================================== -->
+        <!-- HOTSPOT INFO PAGE                      -->
+        <!-- Displayed after successful QR scan     -->
+        <!-- Shows hotspot details and next steps   -->
+        <!-- ====================================== -->
         <div id="hotspot-info" class="screen">
+            <!-- Host name from QR code data -->
             <div class="logo">Sarah's Café</div>
             <div class="subtitle">Welcome to our hotspot!</div>
 
+            <!-- Hotspot connection details -->
             <div class="host-info">
+                <!-- WiFi network SSID to connect to -->
                 <div class="info-row">
                     <span>WiFi Network:</span>
                     <span>DataTap_Guest</span>
                 </div>
+                
+                <!-- Pricing information from host settings -->
                 <div class="info-row">
                     <span>Price:</span>
                     <span id="display-price">R0.10/min</span>
                 </div>
+                
+                <!-- Connection quality indicator -->
                 <div class="info-row">
                     <span>Connection:</span>
                     <span>Fast Fibre</span>
                 </div>
             </div>
 
+            <!-- Step-by-step connection instructions -->
             <div class="instructions">
                 <strong>Next steps:</strong><br>
                 1. Connect to "DataTap_Guest" WiFi network<br>
@@ -162,73 +231,105 @@
                 3. Set your spending limit and start browsing!
             </div>
 
+            <!-- Proceed after manually connecting to WiFi -->
+            <!-- In production, this would auto-detect WiFi connection -->
             <button class="btn" onclick="showScreen('captive-portal')">
                 I've joined the WiFi - Start
             </button>
         </div>
 
-        <!-- Captive Portal Payment Screen -->
+        <!-- ====================================== -->
+        <!-- CAPTIVE PORTAL PAYMENT SCREEN          -->
+        <!-- Customer sets spending limit before    -->
+        <!-- session starts (pre-authorization)     -->
+        <!-- ====================================== -->
         <div id="captive-portal" class="screen">
+            <!-- Screen header -->
             <div class="logo">Set Spending Limit</div>
             <div class="subtitle">How much do you want to spend?</div>
 
+            <!-- Spending limit controls -->
             <div class="spending-controls">
+                <!-- Input for maximum amount customer wants to spend -->
                 <label for="spending-limit">Maximum Amount (R)</label>
                 <input type="number" id="spending-limit" class="amount-input" value="5.00" min="1" max="100" step="0.50">
                 
+                <!-- Dynamic time estimate based on pricing rate -->
+                <!-- Helps customer understand value of their budget -->
                 <div style="margin: 15px 0; font-size: 14px; color: #666;">
                     At R<span id="rate-display">0.10</span>/min, this gives you about <span id="time-estimate">50</span> minutes
                 </div>
             </div>
 
+            <!-- Initiate session with selected spending limit -->
+            <!-- Would trigger payment pre-authorization in production -->
             <button class="btn" onclick="startSession()">
                 Start Session
             </button>
 
+            <!-- User reassurance about spending controls -->
             <div style="margin-top: 20px; font-size: 12px; color: #666;">
                 You'll be notified when you're close to your limit
             </div>
         </div>
 
-        <!-- Active Session Screen -->
+        <!-- ====================================== -->
+        <!-- ACTIVE SESSION SCREEN                  -->
+        <!-- Real-time session monitoring for       -->
+        <!-- customer during active connection      -->
+        <!-- ====================================== -->
         <div id="active-session" class="screen">
+            <!-- Screen header -->
             <div class="logo">Session Active</div>
             <div class="subtitle">You're connected and browsing!</div>
 
+            <!-- Live session statistics -->
             <div class="session-status">
+                <!-- Elapsed time since session start (updated every second) -->
                 <div class="status-row">
                     <span>Time Connected:</span>
                     <span id="session-time">00:00</span>
                 </div>
+                
+                <!-- Current amount spent (calculated from time × rate) -->
                 <div class="status-row">
                     <span>Amount Spent:</span>
                     <span>R<span id="amount-spent">0.00</span></span>
                 </div>
+                
+                <!-- User's pre-set spending limit -->
                 <div class="status-row">
                     <span>Limit:</span>
                     <span>R<span id="session-limit">5.00</span></span>
                 </div>
                 
+                <!-- Visual progress bar (fills as budget is consumed) -->
                 <div class="progress-bar">
                     <div class="progress-fill" id="spending-progress"></div>
                 </div>
                 
+                <!-- Remaining budget display -->
                 <div style="font-size: 12px; opacity: 0.8; margin-top: 10px;">
                     <span id="remaining-amount">R5.00</span> remaining
                 </div>
             </div>
 
+            <!-- Warning notification (appears when near limit) -->
+            <!-- Triggered when spending reaches ~90% of limit -->
             <div class="notification" id="limit-warning">
                 <strong>Almost at your limit!</strong><br>
                 You've spent most of your budget. Continue or end session?
             </div>
 
+            <!-- Initial session controls (only "End Session" visible) -->
             <div id="session-controls">
                 <button class="btn danger" onclick="endSession()">
                     End Session
                 </button>
             </div>
 
+            <!-- Extended controls (shown after limit warning) -->
+            <!-- Allows customer to continue or end session -->
             <div id="continue-controls" style="display: none;">
                 <button class="btn success" onclick="continueSession()">
                     Continue Session
@@ -239,36 +340,51 @@
             </div>
         </div>
 
-        <!-- Session Ended Screen -->
+        <!-- ====================================== -->
+        <!-- SESSION ENDED SCREEN                   -->
+        <!-- Summary and payment confirmation after -->
+        <!-- customer ends session or hits limit    -->
+        <!-- ====================================== -->
         <div id="session-ended" class="screen">
+            <!-- Screen header -->
             <div class="logo">Session Ended</div>
             <div class="subtitle">Thank you for using DataTap!</div>
 
+            <!-- Final session summary -->
             <div class="session-status">
+                <!-- Total duration of completed session -->
                 <div class="status-row">
                     <span>Total Time:</span>
                     <span id="final-time">05:23</span>
                 </div>
+                
+                <!-- Final amount charged (time × rate) -->
                 <div class="status-row">
                     <span>Total Spent:</span>
                     <span>R<span id="final-amount">0.54</span></span>
                 </div>
+                
+                <!-- Host name for reference -->
                 <div class="status-row">
                     <span>Host:</span>
                     <span id="final-host">Sarah's Café</span>
                 </div>
             </div>
 
+            <!-- Payment confirmation message -->
+            <!-- Uses Open Payments protocol for interoperability -->
             <div style="margin: 20px 0; padding: 15px; background: #e8f5e8; border-radius: 10px; font-size: 14px;">
                  Payment processed successfully via Open Payments
             </div>
 
+            <!-- Return to main menu for another session -->
             <button class="btn" onclick="showScreen('main-screen')">
                 Connect to Another Hotspot
             </button>
         </div>
     </div>
 
+    <!-- Main JavaScript file (loaded after DOM for performance) -->
     <script src="main.js" defer></script>
 </body>
 </html>
